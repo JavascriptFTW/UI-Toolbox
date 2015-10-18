@@ -5,12 +5,12 @@
 
         <link rel="stylesheet" type="text/css" href="Styles/main.css">
 
-        <title>Advanced Interactions</title>
+        <title>UI Toolbox</title>
     </head>
     <body>
         <div class="section">
-            <h1 class="header">Advanced Interactions</h1>
-            <p>Advanced interactions is a pet project of mine that's intended as a collection of the somewhat unconventional ways of interacting with the web I've come up with. This project is intended to put all of those interactions in one place for easy use by everyone (especially me :P).</p>
+            <h1 class="header">Welcome</h1>
+            <p>UI Toolbox is a pet project of mine that's intended as a collection of the somewhat unconventional ways of interacting with the web I've come up with. This project is intended to put all of those interactions in one place for easy use by everyone (especially me :P).</p>
             <p>Below are details about the components that I've put into this project, including code examples and example usage (example examples as well). I hope you enjoy the product of my "goofing off"!</p>
         </div>
         <div class="section">
@@ -70,6 +70,8 @@ Scrubberfy(document.getElementById("num-cookies"), {
 &lt;p>There are about 138 calories in a chocolate chip cookie. If you eat &lt;span id="num-cookies">{{@(num-cookies)}} cookie{{@(num-cookies) > 1 ? "s" : ""}}&lt;/span> then you will have to &lt;span id="exercise">jog at 6 miles per hour for about {{floor(@(num-cookies) * 138 / 9)}} minutes, or fence for about {{floor(@(num-cookies) * 138 / 7)}} minutes&lt;/span> to account for eating those cookies.</p>
             </div>
         </div>
+        <h3>Uses</h3>
+        <p>The Scrubberfy module could be used for many things such as a more complex version of the exercise calculator seen above, an actual calculator with scrubbing capabilities, or in a paper with lots of graphs and variables so that readers could play around and see what variables did visually.</p>
         <script type="text/javascript" src="Scripts/DOMEvent.js"></script>
         <script type="text/javascript" src="Scripts/DOMBind.js"></script>
         <script type="text/javascript" src="Scripts/Scrubberfy.js"></script>
