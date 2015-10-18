@@ -18,7 +18,7 @@ p {
     width: 100%;
 }
 
-.section *:not(.header) {
+.section > *:not(.header) {
     margin: 1em;
 }
 
@@ -39,7 +39,7 @@ p {
     margin-left: 2em;
     margin-right: 2em;
     max-width: 650px;
-    padding: 0.5em;
+    padding: 1em;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
 }
 
