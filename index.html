@@ -3,13 +3,76 @@
     <head>
         <meta charset="utf-8">
 
+        <link rel="stylesheet" type="text/css" href="Styles/main.css">
+
         <title>Advanced Interactions</title>
-        <script type="text/javascript" src="Scripts/DOMEvent.js"></script>
-        <script type="text/javascript" src="Scripts/Scrubberfy.js"></script>
-        <script type="text/javascript" src="Scripts/main.js"></script>
     </head>
     <body>
-        <p id="test">HIAFEH:IUGH</p>
-        <img src="http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg">
+        <div class="section">
+            <h1 class="header">Advanced Interactions</h1>
+            <p>Advanced interactions is a pet project of mine that's intended as a collection of the somewhat unconventional ways of interacting with the web I've come up with. This project is intended to put all of those interactions in one place for easy use by everyone (especially me :P).</p>
+            <p>Below are details about the components that I've put into this project, including code examples and example usage (example examples as well). I hope you enjoy the product of my "goofing off"!</p>
+        </div>
+        <div class="section">
+            <h2 class="header">Scrubberfy <small>Requires DOMEvent.js, and DOMBind.js</small></h2>
+            <p>The Scubberfy component allows the user to interact with the information in your HTML document, changing values to see what happens.</p>
+            <h3>Live Examples</h3>
+            <div class="block example">
+                <p>Press your mouse on any of the bold numbers and move it around (while still pressed) to see what happens</p>
+                <p id="pi-scrubber"><span class="scrubbable" id="pi-coeff-scrubber">{{@(value)}}</span>&pi; equals <span id="pi-answer">{{@(value) * #(pi)}}</span></p>
+                <p>There are about 138 calories in a chocolate chip cookie. If you eat <span class="scrubbable" id="num-cookies">{{@(num-cookies)}} cookie{{@(num-cookies) > 1 ? "s" : ""}}</span> then you will have to <span id="exercise">jog at 6 miles per hour for about {{floor(@(num-cookies) * 138 / 9)}} minutes, or fence for about {{floor(@(num-cookies) * 138 / 7)}} minutes</span> to account for eating those cookies.</p>
+            </div>
+            <h3>Example Code</h3>
+            <p>JavaScript</p>
+            <div class="block code">// Add a global to represent pi
+Scrubberfy.setGlobal("pi", Math.PI);
+
+/* Create a scrubber */
+Scrubberfy(document.getElementById("pi-coeff-scrubber"), {
+    /* This method is called when the scrubber is created. Do any startup logic (setting variables for instance) in here */
+    init: function() {
+        /* The setData method sets a specified data property (the first argument) to any value that you wish (the second argument) and returns the value, if the third argument is true then it will not update the display */
+        this.setData("raw-value", 2, true);
+        /* Set the value property to 2. This WILL update the display (since no third argument was passed) */
+        this.setData("value", 2);
+        /* The addBind method is used to add any elements that you want to update when your scrubber does */
+        this.addBind(document.getElementById("pi-answer"));
+    },
+    /* The drag method is called whenever the scrubber is being drug */
+    drag: function(evt) {
+        /* The incrementData method adds a specified amount (second argument) to a data variable (first argument) and returns its value, just as in setData if the third argument is true the dislay will not be updated */
+        /* The drag handler is passed an object which contains, amoung other things, the amount the mouse has moved since its position was last updated (deltaX and deltaY) */
+        this.incrementData("raw-value", evt.deltaX / 6, true);
+        /* Call setData and allow it to update the display. This will simultaneously update the "#pi-coeff-scrubber" element (since the scrubber was attached to it), and the "#pi-answer" element (since it was bound to this scrubber) */
+        this.setData("value", Math.round(this.getData("raw-value")));
+    }
+});
+
+Scrubberfy(document.getElementById("num-cookies"), {
+    init: function() {
+        this.setData("raw-cookies", 1);
+        this.setData("num-cookies", 1);
+        this.addBind(document.getElementById("exercise"));
+    },
+    drag: function(evt) {
+        /* The incrementData method increments a data value (the first argument) by a specific amount (the second argument) */
+        this.incrementData("raw-cookies", evt.deltaX / 6, true);
+        /* The constrainData method constrains a data value (first argument) between a minimum (second argument) and maximum (third argument) value */
+        var rawCookies = this.constrainData("raw-cookies", 1, Infinity, true);
+        this.setData("num-cookies", Math.round(rawCookies));
+    }
+});</div>
+            <p>HTML</p>
+            <div class="block code">&lt;!--Data blocks are the content that will be updated when the scrubber is, they are created like this: "{{something that looks like JavaScript here}}". Refence data local to the scrubber like so: "@(data-name)". Reference global data like this: "#(global-data-name)"-->
+&lt;p>&lt;span id="pi-coeff-scrubber">{{@(value)}}&lt;/span>&amp;pi; equals &lt;span id="pi-answer">{{@(value) * #(pi)}}&lt;/span>&lt;/p>
+
+&lt;!--You can do nearly anything you want in a data block. Like using the ternary operator to see whether something should be plural or not. You may also use any methods on the Math object that you like-->
+&lt;p>There are about 138 calories in a chocolate chip cookie. If you eat &lt;span id="num-cookies">{{@(num-cookies)}} cookie{{@(num-cookies) > 1 ? "s" : ""}}&lt;/span> then you will have to &lt;span id="exercise">jog at 6 miles per hour for about {{floor(@(num-cookies) * 138 / 9)}} minutes, or fence for about {{floor(@(num-cookies) * 138 / 7)}} minutes&lt;/span> to account for eating those cookies.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="Scripts/DOMEvent.js"></script>
+        <script type="text/javascript" src="Scripts/DOMBind.js"></script>
+        <script type="text/javascript" src="Scripts/Scrubberfy.js"></script>
+        <script type="text/javascript" src="Scripts/main.js"></script>
     </body>
 </html>

@@ -1,5 +1,8 @@
 /* Module for cross-browser event listening */
-var DOMEvent = (function() {
+(function() {
+    if (!window.DOM) {
+        window.DOM = {};
+    }
     /* Create an object to store our publicly visible methods and data */
     var DOMEvent = {};
 
@@ -38,17 +41,17 @@ var DOMEvent = (function() {
         this.lastCallback = -Infinity;
         /* Run our initialization method */
         this._init();
-    };
+    }
 
-    
+
     EventListener.prototype = {
         /* Method to run initialization logic for EventListener's */
         _init: function() {
             /* Do initialization stuff sometime */
         },
-        /* 
+        /*
           Listen and unlisten methods originally from John Resig here:
-          http://ejohn.org/projects/flexible-javascript-events/ 
+          http://ejohn.org/projects/flexible-javascript-events/
          */
         listen: function(el) {
             /* If the event we're listening for is "ready"... */
@@ -76,7 +79,7 @@ var DOMEvent = (function() {
             if (el.detachEvent) {
                 /* ...detach the IE event listener */
                 el.detachEvent("on" + this.event, obj[this.event + this.callback]);
-                el[this.event + this.callback] = null
+                el[this.event + this.callback] = null;
             /* ...otherwise... */
             } else {
                 /* ...use the standard method to remove event listeners */
@@ -92,5 +95,5 @@ var DOMEvent = (function() {
     };
 
     /* Return our object of publicly visible shtuff */
-    return DOMEvent;
+    window.DOM.Event = DOMEvent;
 })();
